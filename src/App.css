@@ -1,19 +1,31 @@
 html, body {
   height: 100%;
-  overflow: hidden; /* Changed from overflow-y: auto */
+  overflow-y: auto; /* Allow natural page scrolling */
   margin: 0;
 }
 
 .app {
   text-align: center;
-  padding: 0; /* MUST be 0. Padding goes inside the scrolling content. */
+  
+  /* This padding creates the space for all fixed elements:
+    TOP: Header (1.5em+9px) + Summary (2.2em+17px) = 3.7em + 26px
+    BOTTOM: Footer (60px)
+  */
+  padding: calc(3.7em + 26px) 8px 60px 8px;
+  
   max-width: 100vw;
   overflow-x: hidden;
   position: relative;
-  height: 100vh; /* Fills the viewport, does not scroll */
+  min-height: 100vh;
   font-size: 1.2em;
   background-color: white;
   color: black;
+  
+  /* Add these properties from the deleted .settlement-content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box; /* Good practice */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -94,24 +106,6 @@ html, body {
 
 .summary-card button {
   margin: 0;
-}
-
-.settlement-content {
-  position: absolute;
-  left: 0;
-  right: 0;
-  /* This is the new, correct calculation */
-  top: calc(3.7em + 26px);
-  bottom: 60px; /* Space for the footer */
-  
-  padding: 0 8px; /* Horizontal padding is fine */
-  width: 100%;
-  
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-y: auto; /* This is the ONLY scrolling area */
-  box-sizing: border-box;
 }
 
 .players-container {
