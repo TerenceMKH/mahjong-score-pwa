@@ -48,13 +48,12 @@ html, body {
 
 .fixed-summary {
   position: fixed;
-  /* New Rule: Place exactly below the header */
-  top: calc(1.5em + 17px);
+  top: calc(1.5em + 17px); /* Sets summary below header (1.5em h1 + 16px padding + 1px border) */
   left: 0;
   width: 100%;
   background: white;
   z-index: 9;
-  padding: 8px 0; /* Restore padding to match history code */
+  padding: 8px 0;
   border-bottom: 1px solid #ccc;
 }
 
@@ -100,6 +99,7 @@ html, body {
 .content {
   /* This wrapper should only define its flow */
   padding: 0; 
+  margin-top: calc(1.5em + 17px + 2.2em + 17px); /* Total fixed top height */
   overflow: hidden; /* Prevent interference */
 }
 
@@ -431,6 +431,12 @@ button {
   .player-card {
     padding: 4px;
   }
+
+/* Assuming '劈半', '找數', and '+/-' are siblings inside the player card */
+.player-card button {
+  flex: 1 1 0; /* Allows each button to take up an equal, minimum amount of space */
+  box-sizing: border-box;
+}
 
   .buttons button {
     padding: 2px 4px;
