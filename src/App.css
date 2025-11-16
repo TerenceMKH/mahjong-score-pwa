@@ -1,25 +1,35 @@
 .app {
   text-align: center;
-  padding: 16px;
+  padding: 8px; /* Reduced overall padding */
+  max-width: 100vw; /* Prevent horizontal overflow */
+  overflow-x: hidden; /* Hide any overflow */
 }
 
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  font-size: 1em; /* Smaller header on mobile */
 }
 
 .players-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  flex-direction: row; /* Force row */
+  justify-content: space-between; /* Even spacing */
+  align-items: stretch; /* Stretch heights equally */
+  gap: 4px; /* Minimal gap */
+  max-width: 100%; /* Fit screen */
 }
 
 .player-card {
   border: 1px solid #ccc;
-  padding: 16px;
-  margin: 8px;
-  width: 200px;
+  padding: 8px; /* Reduced padding */
+  margin: 2px; /* Reduced margin */
+  flex: 1; /* Grow/shrink equally */
+  min-width: 0; /* Allow shrinking below content width */
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent internal overflow */
 }
 
 .positive { color: green; }
@@ -28,7 +38,8 @@
 .buttons {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 16px;
+  margin-bottom: 8px; /* Reduced */
+  gap: 2px; /* Tight spacing */
 }
 
 .inputs {
@@ -37,16 +48,20 @@
 }
 
 input {
-  margin: 4px 0;
-  padding: 8px;
-  font-size: 16px;
+  margin: 1px 0; /* Minimal margin */
+  padding: 4px; /* Smaller padding */
+  font-size: 0.8em; /* Smaller text */
+  width: 100%; /* Full card width */
+  box-sizing: border-box;
 }
 
 button {
-  padding: 8px 16px;
-  margin: 4px;
+  padding: 4px 8px; /* Smaller buttons */
+  margin: 1px; /* Minimal margin */
   border-radius: 4px;
   cursor: pointer;
+  font-size: 0.8em; /* Smaller text */
+  flex: 1; /* Equal button widths */
 }
 
 .negative-btn { background-color: red; color: white; }
@@ -58,27 +73,32 @@ button {
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
-  padding: 20px;
+  padding: 12px; /* Reduced */
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  max-width: 90vw; /* Fit mobile */
+  max-height: 80vh;
+  overflow: auto;
 }
 
 .check-inputs {
   display: grid;
-  grid-template-columns: auto auto; /* Label and input side-by-side */
-  gap: 8px;
-  margin-bottom: 16px;
+  grid-template-columns: auto auto; /* Side-by-side */
+  gap: 2px; /* Minimal gap */
+  margin-bottom: 8px;
 }
 
-.check-inputs label {
-  font-weight: bold;
-  text-align: right;
+.check-inputs input[type="text"] {
+  width: 60px; /* Smaller width */
+  padding: 4px;
+  font-size: 0.8em;
+  margin-right: 2px;
 }
 
-.check-inputs input {
-  width: 100px; /* Fixed width for inputs */
-  padding: 8px;
-  font-size: 16px;
+.check-inputs input[type="number"] {
+  width: 60px;
+  padding: 4px;
+  font-size: 0.8em;
 }
 
 .balanced {
@@ -91,9 +111,34 @@ button {
   font-weight: bold;
 }
 
-.check-inputs input[type="text"] {
-  width: 100px;
-  padding: 8px;
-  font-size: 16px;
-  margin-right: 8px; /* Space between name and number inputs */
+/* Mobile optimizations (under 768px) */
+@media (max-width: 767px) {
+  .app-header h1 {
+    font-size: 1em; /* Even smaller title */
+  }
+
+  .player-card h2 {
+    font-size: 0.9em; /* Smaller names */
+  }
+
+  .player-card h3 {
+    font-size: 1em; /* Smaller scores */
+  }
+}
+
+/* Extra-small screens (e.g., iPhone <400px) */
+@media (max-width: 400px) {
+  .player-card {
+    padding: 4px; /* Minimal padding */
+  }
+
+  .buttons button {
+    padding: 2px 4px;
+    font-size: 0.7em;
+  }
+
+  .inputs input {
+    padding: 2px;
+    font-size: 0.7em;
+  }
 }
