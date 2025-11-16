@@ -312,16 +312,6 @@ function App() {
         <div className="players-container">
           {playerNames.map((name, i) => (
             <div key={i} className="player-card">
-              <div className="buttons">
-                <button onClick={() => kickHalf(i)}>劈半</button>
-                <button onClick={() => clearScore(i)}>找數</button>
-                <button
-                  onClick={() => toggleSign(i)}
-                  className={isNegative[i] ? 'negative-btn' : 'positive-btn'}
-                >
-                  +/-
-                </button>
-              </div>
               <div className="inputs">
                 {scores[i].map((score, j) => (
                   <input
@@ -355,6 +345,16 @@ function App() {
                 <h3 className={isNegative[i] ? 'negative' : 'positive'}>
                   {normalizeScore(totalScores[i], isNegative[i])}
                 </h3>
+                <div className="buttons">
+                  <button onClick={() => kickHalf(i)}>劈半</button>
+                  <button onClick={() => clearScore(i)}>找數</button>
+                  <button
+                    onClick={() => toggleSign(i)}
+                    className={isNegative[i] ? 'negative-btn' : 'positive-btn'}
+                  >
+                    +/-
+                  </button>
+                </div>
               </div>
             ))}
           </div>
