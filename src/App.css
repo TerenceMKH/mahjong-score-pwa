@@ -8,7 +8,7 @@ html, body {
   text-align: center;
   padding: 0 8px 60px 8px; /* No top padding since header is fixed */
   max-width: 100vw;
-  overflow: hidden;
+  overflow-y: auto;
   position: relative;
   height: 100%;
   font-size: 1.2em;
@@ -76,6 +76,10 @@ html, body {
 .summary-card {
   flex: 1;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
 }
 
 .summary-card h2 {
@@ -94,7 +98,7 @@ html, body {
 
 .content {
   padding: calc(1.5em + 8px + 1px + 4px + 2.2em + 4px + 1px) 0 60px 0; /* Adjusted top padding for header + summary */
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .settlement-content {
@@ -262,8 +266,8 @@ button {
 
 .square {
   position: relative;
-  width: 80vw;
-  height: 80vw;
+  width: min(80vw, 80vh);
+  height: min(80vw, 80vh);
   max-width: 400px;
   max-height: 400px;
   margin: 20px auto;
@@ -428,12 +432,5 @@ button {
 
   .player input {
     width: 80px;
-  }
-}
-
-@media (orientation: landscape) {
-  .square {
-    max-width: 300px;
-    max-height: 300px;
   }
 }
