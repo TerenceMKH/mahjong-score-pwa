@@ -232,7 +232,7 @@ button {
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   max-width: 90vw;
   max-height: 80vh;
-  overflow: auto;
+  overflow: hidden;
   z-index: 11;
   color: black;
 }
