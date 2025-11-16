@@ -1,35 +1,41 @@
 .app {
   text-align: center;
-  padding: 8px; /* Reduced overall padding */
-  max-width: 100vw; /* Prevent horizontal overflow */
-  overflow-x: hidden; /* Hide any overflow */
+  padding: 8px 8px 60px 8px; /* Bottom padding for footer */
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh; /* Full height for footer positioning */
 }
 
 .app-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Center title, no buttons */
   align-items: center;
-  flex-wrap: wrap;
-  font-size: 1em; /* Smaller header on mobile */
+  margin-bottom: 8px;
+}
+
+.app-header h1 {
+  font-size: 1.2em; /* Smaller title */
+  margin: 0;
 }
 
 .players-container {
   display: flex;
-  flex-direction: row; /* Force row */
-  justify-content: space-between; /* Even spacing */
-  align-items: stretch; /* Stretch heights equally */
-  gap: 4px; /* Minimal gap */
-  max-width: 100%; /* Fit screen */
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 2px; /* Tight gap */
+  max-width: 100%;
 }
 
 .player-card {
   border: 1px solid #ccc;
-  padding: 8px; /* Reduced padding */
-  margin: 2px; /* Reduced margin */
-  flex: 1; /* Grow/shrink equally */
-  min-width: 0; /* Allow shrinking below content width */
+  padding: 6px; /* Tighter padding */
+  margin: 2px;
+  flex: 1;
+  min-width: 0;
   box-sizing: border-box;
-  overflow: hidden; /* Prevent internal overflow */
+  overflow: hidden;
 }
 
 .positive { color: green; }
@@ -38,8 +44,8 @@
 .buttons {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 8px; /* Reduced */
-  gap: 2px; /* Tight spacing */
+  margin-bottom: 6px;
+  gap: 1px; /* Tight */
 }
 
 .inputs {
@@ -48,20 +54,20 @@
 }
 
 input {
-  margin: 1px 0; /* Minimal margin */
-  padding: 4px; /* Smaller padding */
-  font-size: 0.8em; /* Smaller text */
-  width: 100%; /* Full card width */
+  margin: 1px 0;
+  padding: 3px;
+  font-size: 0.8em;
+  width: 100%;
   box-sizing: border-box;
 }
 
 button {
-  padding: 4px 8px; /* Smaller buttons */
-  margin: 1px; /* Minimal margin */
+  padding: 3px 6px;
+  margin: 1px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.8em; /* Smaller text */
-  flex: 1; /* Equal button widths */
+  font-size: 0.8em;
+  flex: 1;
 }
 
 .negative-btn { background-color: red; color: white; }
@@ -73,23 +79,24 @@ button {
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
-  padding: 12px; /* Reduced */
+  padding: 12px;
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  max-width: 90vw; /* Fit mobile */
+  max-width: 90vw;
   max-height: 80vh;
   overflow: auto;
+  z-index: 10; /* Above footer */
 }
 
 .check-inputs {
   display: grid;
-  grid-template-columns: auto auto; /* Side-by-side */
-  gap: 2px; /* Minimal gap */
+  grid-template-columns: auto auto;
+  gap: 2px;
   margin-bottom: 8px;
 }
 
 .check-inputs input[type="text"] {
-  width: 60px; /* Smaller width */
+  width: 60px;
   padding: 4px;
   font-size: 0.8em;
   margin-right: 2px;
@@ -111,25 +118,48 @@ button {
   font-weight: bold;
 }
 
-/* Mobile optimizations (under 768px) */
+/* Footer for bottom buttons */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background: white;
+  border-top: 1px solid #ccc;
+  padding: 8px 0;
+  z-index: 5; /* Above content if scrolled */
+}
+
+.footer button {
+  padding: 6px;
+  font-size: 0.8em;
+  background: #f0f0f0;
+  border: none;
+  cursor: pointer;
+  flex: 1;
+  text-align: center;
+}
+
+/* Mobile optimizations */
 @media (max-width: 767px) {
   .app-header h1 {
-    font-size: 1em; /* Even smaller title */
+    font-size: 1em;
   }
 
   .player-card h2 {
-    font-size: 0.9em; /* Smaller names */
+    font-size: 0.8em;
   }
 
   .player-card h3 {
-    font-size: 1em; /* Smaller scores */
+    font-size: 0.9em;
   }
 }
 
-/* Extra-small screens (e.g., iPhone <400px) */
 @media (max-width: 400px) {
   .player-card {
-    padding: 4px; /* Minimal padding */
+    padding: 4px;
   }
 
   .buttons button {
@@ -140,5 +170,10 @@ button {
   .inputs input {
     padding: 2px;
     font-size: 0.7em;
+  }
+
+  .footer button {
+    font-size: 0.7em;
+    padding: 4px;
   }
 }

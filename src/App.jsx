@@ -96,15 +96,20 @@ function App() {
   // Compute sum, treating empty as 0
   const checkSum = checkInputs.reduce((acc, val) => acc + (parseInt(val) || 0), 0);
 
+  // Reset function for "番數記錄" button (closes dialogs, optional reset scores if needed)
+  const resetMainView = () => {
+    setShowRecordsDialog(false);
+    setShowCheckDialog(false);
+    // Optional: Reset scores if you want a full reset
+    // setScores(playerNames.map(() => Array(6).fill(0)));
+    // setTotalScores([0, 0, 0]);
+    // setIsNegative([false, false, false]);
+  };
+
   return (
     <div className="app">
       <header className="app-header">
         <h1>台灣麻將番數記錄</h1>
-        <button onClick={() => setShowRecordsDialog(true)}>記錄</button>
-        <button onClick={() => {
-          setShowCheckDialog(true);
-          setCheckInputs(['', '', '', '']); // Reset inputs to empty on open
-        }}>對數</button>
       </header>
       <div className="players-container">
         {playerNames.map((name, i) => (
@@ -202,6 +207,15 @@ function App() {
           <button onClick={() => setShowCheckDialog(false)}>關閉</button>
         </div>
       )}
+
+      <div className="footer">
+        <button onClick={resetMainView}>番數記錄</button>
+        <button onClick={() => {
+          setShowCheckDialog(true);
+          setCheckInputs(['', '', '', '']); // Reset inputs
+        }}>埋數</button>
+        <button onClick={() => setShowRecordsDialog(true)}>記錄</button>
+      </div>
     </div>
   );
 }
