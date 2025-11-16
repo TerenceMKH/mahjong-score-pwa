@@ -84,21 +84,26 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 0;
-  padding: 0;
+  line-height: 1; /* Add this */
+
 }
 
 .summary-card h2 {
   font-size: 1em;
   margin: 0;
+  line-height: 1; /* Add this */
+
 }
 
 .summary-card h3 {
   font-size: 1.2em;
   margin: 0;
+  line-height: 1; /* Add this */
 }
 
 .summary-card button {
   margin: 0;
+  margin-top: 0; /* Explicitly set to 0 */
 }
 
 .players-container {
