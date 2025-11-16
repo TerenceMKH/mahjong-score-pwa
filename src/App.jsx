@@ -109,7 +109,7 @@ function App() {
           {playerNames.map((name, i) => (
             <div key={i} className="summary-card">
               <h2>{name}</h2>
-              <h3 className={isNegative[i] ? 'negative' : 'positive'}>  {/* Use isNegative for color sync */}
+              <h3 className={isNegative[i] ? 'negative' : 'positive'}>
                 {normalizeScore(totalScores[i], isNegative[i])}
               </h3>
             </div>
@@ -136,7 +136,7 @@ function App() {
                     key={j}
                     type="text"
                     inputMode="numeric"
-                    pattern="^-?[0-9]*$"
+                    pattern="[0-9]*"
                     value={score || ''}
                     onChange={(e) => updateScore(i, j, e.target.value)}
                   />
@@ -172,7 +172,7 @@ function App() {
             <input
               type="text"
               inputMode="numeric"
-              pattern="^-?[0-9]*$"
+              pattern="[0-9]*"
               value={checkInputs[0]}
               onChange={(e) => updateCheckInput(0, e.target.value)}
             />
@@ -184,7 +184,7 @@ function App() {
             <input
               type="text"
               inputMode="numeric"
-              pattern="^-?[0-9]*$"
+              pattern="[0-9]*"
               value={checkInputs[1]}
               onChange={(e) => updateCheckInput(1, e.target.value)}
             />
@@ -196,7 +196,7 @@ function App() {
             <input
               type="text"
               inputMode="numeric"
-              pattern="^-?[0-9]*$"
+              pattern="[0-9]*"
               value={checkInputs[2]}
               onChange={(e) => updateCheckInput(2, e.target.value)}
             />
@@ -208,7 +208,7 @@ function App() {
             <input
               type="text"
               inputMode="numeric"
-              pattern="^-?[0-9]*$"
+              pattern="[0-9]*"
               value={checkInputs[3]}
               onChange={(e) => updateCheckInput(3, e.target.value)}
             />
