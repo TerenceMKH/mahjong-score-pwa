@@ -107,6 +107,8 @@ html, body {
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .players-container {
@@ -137,7 +139,7 @@ html, body {
 
 .player-card h3 {
   font-size: 1.2em;
-  margin: 0 0 4px 0;
+  margin: 0;
 }
 
 @media (prefers-color-scheme: dark) {
