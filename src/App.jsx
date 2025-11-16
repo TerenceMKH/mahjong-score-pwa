@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   const playerNames = ['上家', '對家', '下家'];
-  const [scores, setScores] = useState(playerNames.map(() => Array(6).fill(0)));
+  const [scores, setScores] = useState(playerNames.map(() => Array(12).fill(0)));
   const [totalScores, setTotalScores] = useState([0, 0, 0]);
   const [isNegative, setIsNegative] = useState([false, false, false]);
   const [playerRecords, setPlayerRecords] = useState([null, null, null]);
@@ -145,7 +145,7 @@ function App() {
     setTotalScores(newTotals);
 
     const newScores = [...scores];
-    newScores[playerIndex] = Array(6).fill(0);
+    newScores[playerIndex] = Array(12).fill(0);
     setScores(newScores);
   };
 
