@@ -48,7 +48,7 @@ html, body {
 
 .fixed-summary {
   position: fixed;
-  top: calc(1.5em + 8px + 1px);
+  top: calc(1.5em + 4px + 1px);
   left: 0;
   width: 100%;
   background: white;
@@ -93,19 +93,20 @@ html, body {
 }
 
 .summary-card button {
-  margin-top: 0;
+  margin: 0;
 }
 
 .content {
-  padding: calc(1.5em + 8px + 1px + 4px + 2.2em + 4px + 1px) 0 60px 0; /* Adjusted top padding for header + summary */
+  padding: calc(1.5em + 4px + 1px + 4px + 2.2em + 4px + 1px) 0 60px 0; /* Adjusted top padding for header + summary */
   overflow-y: auto;
 }
 
 .settlement-content {
-  padding: calc(1.5em + 8px + 1px + 4px + 2.2em + 4px + 1px) 8px 60px 8px; /* Adjusted top padding for header + summary */
+  padding: calc(1.5em + 4px + 1px + 4px + 2.2em + 4px + 1px) 8px 60px 8px; /* Adjusted top padding for header + summary */
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
 }
 
 .players-container {
@@ -432,5 +433,12 @@ button {
 
   .player input {
     width: 80px;
+  }
+}
+
+@media (orientation: landscape) {
+  .square {
+    width: min(80vw, 50vh);
+    height: min(80vw, 50vh);
   }
 }
