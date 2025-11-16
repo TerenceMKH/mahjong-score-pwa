@@ -1,6 +1,6 @@
 html, body {
   height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
   margin: 0;
 }
 
@@ -48,6 +48,7 @@ html, body {
 
 .fixed-summary {
   position: fixed;
+  top: calc(1.5em + 8px + 1px);
   left: 0;
   width: 100%;
   background: white;
@@ -67,7 +68,7 @@ html, body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 2px;
+  gap: 0;
   max-width: 100%;
   padding: 0 8px;
 }
@@ -87,13 +88,17 @@ html, body {
   margin: 0;
 }
 
+.summary-card button {
+  margin-top: 0;
+}
+
 .content {
-  padding: 0 0 60px 0; /* Remove top padding */
+  padding: calc(1.5em + 8px + 1px + 4px + 2.2em + 4px + 1px) 0 60px 0; /* Adjusted top padding for header + summary */
   overflow: hidden;
 }
 
 .settlement-content {
-  padding: 60px 8px 60px 8px; /* Space for header and footer */
+  padding: calc(1.5em + 8px + 1px + 4px + 2.2em + 4px + 1px) 8px 60px 8px; /* Adjusted top padding for header + summary */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -423,5 +428,12 @@ button {
 
   .player input {
     width: 80px;
+  }
+}
+
+@media (orientation: landscape) {
+  .square {
+    max-width: 300px;
+    max-height: 300px;
   }
 }
