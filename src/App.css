@@ -1,23 +1,67 @@
 .app {
   text-align: center;
-  padding: 8px 8px 60px 8px; /* Bottom for footer */
+  padding: 0 8px 60px 8px; /* No top padding since header is fixed */
   max-width: 100vw;
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
-  font-size: 1.2em; /* Base font increase for bigger text */
+  font-size: 1.2em;
 }
 
-.app-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 8px;
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  z-index: 10;
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
 }
 
-.app-header h1 {
-  font-size: 1.8em; /* Bigger title */
+.fixed-header h1 {
+  font-size: 1.5em;
   margin: 0;
+}
+
+.fixed-summary {
+  position: fixed;
+  top: 50px; /* Below header - adjust based on header height */
+  left: 0;
+  width: 100%;
+  background: white;
+  z-index: 9;
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.summary-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2px;
+  max-width: 100%;
+  padding: 0 8px;
+}
+
+.summary-card {
+  flex: 1;
+  text-align: center;
+}
+
+.summary-card h2 {
+  font-size: 1em;
+  margin: 0;
+}
+
+.summary-card h3 {
+  font-size: 1.2em;
+  margin: 0;
+}
+
+.content {
+  margin-top: 100px; /* Space for fixed header + summary (adjust as needed) */
+  padding-bottom: 60px; /* For footer */
 }
 
 .players-container {
@@ -47,7 +91,7 @@
   justify-content: space-around;
   margin-bottom: 6px;
   gap: 1px;
-  flex-direction: row; /* Default row */
+  flex-direction: row;
 }
 
 .inputs {
@@ -58,7 +102,7 @@
 input {
   margin: 1px 0;
   padding: 3px;
-  font-size: 1.1em; /* Bigger input text */
+  font-size: 1em;
   width: 100%;
   box-sizing: border-box;
 }
@@ -68,7 +112,7 @@ button {
   margin: 1px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 1.1em; /* Bigger button text */
+  font-size: 1em;
   flex: 1;
 }
 
@@ -87,8 +131,7 @@ button {
   max-width: 90vw;
   max-height: 80vh;
   overflow: auto;
-  z-index: 10;
-  font-size: 1.2em; /* Bigger dialog text */
+  z-index: 11; /* Above fixed elements */
 }
 
 .check-inputs {
@@ -99,16 +142,16 @@ button {
 }
 
 .check-inputs input[type="text"] {
-  width: 70px; /* Slightly bigger for readability */
+  width: 60px;
   padding: 4px;
-  font-size: 1.1em;
+  font-size: 1em;
   margin-right: 2px;
 }
 
-.check-inputs input[type="number"] {
-  width: 70px;
+.check-inputs input[type="text"][inputmode="numeric"] {
+  width: 60px;
   padding: 4px;
-  font-size: 1.1em;
+  font-size: 1em;
 }
 
 .balanced {
@@ -132,12 +175,12 @@ button {
   background: white;
   border-top: 1px solid #ccc;
   padding: 8px 0;
-  z-index: 5;
+  z-index: 10;
 }
 
 .footer button {
   padding: 6px;
-  font-size: 1.1em; /* Bigger footer text */
+  font-size: 1em;
   background: #f0f0f0;
   border: none;
   cursor: pointer;
@@ -145,25 +188,25 @@ button {
   text-align: center;
 }
 
-/* Mobile optimizations (under 767px) */
+/* Mobile optimizations */
 @media (max-width: 767px) {
-  .app-header h1 {
-    font-size: 1.4em; /* Adjusted bigger */
+  .fixed-header h1 {
+    font-size: 1.2em;
   }
 
-  .player-card h2 {
+  .summary-card h2 {
+    font-size: 0.9em;
+  }
+
+  .summary-card h3 {
     font-size: 1.1em;
-  }
-
-  .player-card h3 {
-    font-size: 1.3em;
   }
 }
 
-/* Extra-small screens (under 400px) - Stack buttons vertically */
+/* Extra-small screens - Stack buttons */
 @media (max-width: 399px) {
   .buttons {
-    flex-direction: column; /* Stack buttons */
+    flex-direction: column;
     gap: 2px;
   }
 
@@ -173,16 +216,16 @@ button {
 
   .buttons button {
     padding: 2px 4px;
-    font-size: 1em; /* Keep readable */
+    font-size: 0.9em;
   }
 
   .inputs input {
     padding: 2px;
-    font-size: 1em;
+    font-size: 0.9em;
   }
 
   .footer button {
-    font-size: 1em;
+    font-size: 0.9em;
     padding: 4px;
   }
 }

@@ -40,7 +40,7 @@ function App() {
       }
     }
     const newTotals = [...totalScores];
-    newTotals[playerIndex] = isNegative[playerIndex] ? -Math.abs(total) : Math.abs(total); // Force sign, even on 0
+    newTotals[playerIndex] = isNegative[playerIndex] ? -Math.abs(total) : Math.abs(total);
     setTotalScores(newTotals);
   };
 
@@ -48,7 +48,7 @@ function App() {
     const newNegative = [...isNegative];
     newNegative[playerIndex] = !newNegative[playerIndex];
     setIsNegative(newNegative);
-    calculateTotalScore(playerIndex); // Immediate recalc
+    calculateTotalScore(playerIndex);
   };
 
   const kickHalf = (playerIndex) => {
@@ -76,7 +76,7 @@ function App() {
   };
 
   const normalizeScore = (score, isNeg) => {
-    if (score === 0 && isNeg) return '-0'; // Show sign for negative zero
+    if (score === 0 && isNeg) return '-0';
     return score.toString();
   };
 
@@ -101,39 +101,50 @@ function App() {
 
   return (
     <div className="app">
-      <header className="app-header">
+      <header className="app-header fixed-header">
         <h1>台灣麻將番數記錄</h1>
       </header>
-      <div className="players-container">
-        {playerNames.map((name, i) => (
-          <div key={i} className="player-card">
-            <h2>{name}</h2>
-            <h3 className={totalScores[i] >= 0 ? 'positive' : 'negative'}>
-              {normalizeScore(totalScores[i], isNegative[i])}
-            </h3>
-            <div className="buttons">
-              <button onClick={() => kickHalf(i)}>劈半</button>
-              <button onClick={() => clearScore(i)}>找數</button>
-              <button
-                onClick={() => toggleSign(i)}
-                className={isNegative[i] ? 'negative-btn' : 'positive-btn'}
-              >
-                +/-
-              </button>
+      <div className="fixed-summary">
+        <div className="summary-row">
+          {playerNames.map((name, i) => (
+            <div key={i} className="summary-card">
+              <h2>{name}</h2>
+              <h3 className={totalScores[i] >= 0 ? 'positive' : 'negative'}>
+                {normalizeScore(totalScores[i], isNegative[i])}
+              </h3>
             </div>
-            <div className="inputs">
-              {scores[i].map((score, j) => (
-                <input
-                  key={j}
-                  type="number"
-                  min="0"
-                  value={score || ''}
-                  onChange={(e) => updateScore(i, j, e.target.value)}
-                />
-              ))}
+          ))}
+        </div>
+      </div>
+      <div className="content">
+        <div className="players-container">
+          {playerNames.map((name, i) => (
+            <div key={i} className="player-card">
+              <div className="buttons">
+                <button onClick={() => kickHalf(i)}>劈半</button>
+                <button onClick={() => clearScore(i)}>找數</button>
+                <button
+                  onClick={() => toggleSign(i)}
+                  className={totalScores[i] < 0 ? 'negative-btn' : 'positive-btn'} // Sync color with number sign
+                >
+                  +/-
+                </button>
+              </div>
+              <div className="inputs">
+                {scores[i].map((score, j) => (
+                  <input
+                    key={j}
+                    type="text" // Change to text for better keyboard control
+                    inputMode="numeric" // Triggers numeric keyboard on mobile
+                    pattern="^-?[0-9]*$" // Allows negative, positive, zero; no symbols
+                    value={score || ''}
+                    onChange={(e) => updateScore(i, j, e.target.value)}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {showRecordsDialog && (
@@ -159,7 +170,9 @@ function App() {
               onChange={(e) => updateCheckName(0, e.target.value)}
             />
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
+              pattern="^-?[0-9]*$"
               value={checkInputs[0]}
               onChange={(e) => updateCheckInput(0, e.target.value)}
             />
@@ -169,7 +182,9 @@ function App() {
               onChange={(e) => updateCheckName(1, e.target.value)}
             />
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
+              pattern="^-?[0-9]*$"
               value={checkInputs[1]}
               onChange={(e) => updateCheckInput(1, e.target.value)}
             />
@@ -179,7 +194,9 @@ function App() {
               onChange={(e) => updateCheckName(2, e.target.value)}
             />
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
+              pattern="^-?[0-9]*$"
               value={checkInputs[2]}
               onChange={(e) => updateCheckInput(2, e.target.value)}
             />
@@ -189,7 +206,9 @@ function App() {
               onChange={(e) => updateCheckName(3, e.target.value)}
             />
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
+              pattern="^-?[0-9]*$"
               value={checkInputs[3]}
               onChange={(e) => updateCheckInput(3, e.target.value)}
             />
