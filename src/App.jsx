@@ -13,41 +13,22 @@ function App() {
   const [checkInputs, setCheckInputs] = useState(['', '', '', '']);
   const headerRef = useRef(null);
   const summaryRef = useRef(null);
-  const footerRef = useRef(null);
   const [summaryTop, setSummaryTop] = useState(0);
-  const [paddingTop, setPaddingTop] = useState(0);
-  const [paddingBottom, setPaddingBottom] = useState(0);
-
-  const updateViewportHeight = () => {
-    let vh = window.innerHeight;
-    if (window.visualViewport) {
-      vh = window.visualViewport.height;
-    }
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  };
-
-  useEffect(() => {
-    updateViewportHeight();
-    window.addEventListener('resize', updateViewportHeight);
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', updateViewportHeight);
-    }
-    return () => {
-      window.removeEventListener('resize', updateViewportHeight);
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', updateViewportHeight);
-      }
-    };
-  }, []);
+  const [contentMargin, setContentMargin] = useState(0);
 
   useEffect(() => {
     const updatePositions = () => {
-      const headerHeight = headerRef.current ? headerRef.current.offsetHeight : 0;
-      const summaryHeight = summaryRef.current ? summaryRef.current.offsetHeight : 0;
-      const footerHeight = footerRef.current ? footerRef.current.offsetHeight : 0;
+      let headerHeight = 0;
+      if (headerRef.current) {
+        headerHeight = headerRef.current.offsetHeight;
+      }
       setSummaryTop(headerHeight);
-      setPaddingTop(headerHeight + summaryHeight);
-      setPaddingBottom(footerHeight);
+
+      let summaryHeight = 0;
+      if (summaryRef.current) {
+        summaryHeight = summaryRef.current.offsetHeight;
+      }
+      setContentMargin(headerHeight + summaryHeight);
     };
 
     updatePositions();
@@ -224,7 +205,7 @@ function App() {
     headerTitle = '結算';
     showSummary = false;
     content = (
-      <div className="content settlement-content" style={{ padding: `${paddingTop}px 8px ${paddingBottom}px 8px` }}>
+      <div className="settlement-content">
         <div className="square">
           <div className="player top">
             <input
@@ -301,7 +282,7 @@ function App() {
     headerTitle = '找數前記錄';
     showSummary = false;
     content = (
-      <div className="content" style={{ padding: `${paddingTop}px 8px ${paddingBottom}px 8px` }}>
+      <div className="content" style={{ marginTop: `${contentMargin}px` }}>
         <div className="players-container">
           {playerNames.map((name, i) => (
             <div key={i} className="player-card">
@@ -327,10 +308,20 @@ function App() {
     );
   } else {
     content = (
-      <div className="content" style={{ padding: `${paddingTop}px 8px ${paddingBottom}px 8px` }}>
+      <div className="content" style={{ marginTop: `${contentMargin}px` }}>
         <div className="players-container">
           {playerNames.map((name, i) => (
             <div key={i} className="player-card">
+              <div className="buttons">
+                <button onClick={() => kickHalf(i)}>劈半</button>
+                <button onClick={() => clearScore(i)}>找數</button>
+                <button
+                  onClick={() => toggleSign(i)}
+                  className={isNegative[i] ? 'negative-btn' : 'positive-btn'}
+                >
+                  +/-
+                </button>
+              </div>
               <div className="inputs">
                 {scores[i].map((score, j) => (
                   <input
@@ -364,23 +355,13 @@ function App() {
                 <h3 className={isNegative[i] ? 'negative' : 'positive'}>
                   {normalizeScore(totalScores[i], isNegative[i])}
                 </h3>
-                <div className="buttons">
-                  <button onClick={() => kickHalf(i)}>劈半</button>
-                  <button onClick={() => clearScore(i)}>找數</button>
-                  <button
-                    onClick={() => toggleSign(i)}
-                    className={isNegative[i] ? 'negative-btn' : 'positive-btn'}
-                  >
-                    +/-
-                  </button>
-                </div>
               </div>
             ))}
           </div>
         </div>
       )}
       {content}
-      <div className="footer" ref={footerRef}>
+      <div className="footer">
         <button onClick={showMain}>番數記錄</button>
         <button onClick={showSettlementScreen}>結算</button>
         <button onClick={showRecordsScreen}>找數前記錄</button>
