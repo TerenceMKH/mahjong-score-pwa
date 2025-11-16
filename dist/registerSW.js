@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/mahjong-score-pwa/sw.js', { scope: '/mahjong-score-pwa/' })})}
