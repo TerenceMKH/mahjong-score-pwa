@@ -5,6 +5,7 @@
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
+  font-size: 1.2em; /* Base font increase for bigger text */
 }
 
 .app-header {
@@ -15,7 +16,7 @@
 }
 
 .app-header h1 {
-  font-size: 1.2em;
+  font-size: 1.8em; /* Bigger title */
   margin: 0;
 }
 
@@ -57,7 +58,7 @@
 input {
   margin: 1px 0;
   padding: 3px;
-  font-size: 0.8em;
+  font-size: 1.1em; /* Bigger input text */
   width: 100%;
   box-sizing: border-box;
 }
@@ -67,7 +68,7 @@ button {
   margin: 1px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.8em;
+  font-size: 1.1em; /* Bigger button text */
   flex: 1;
 }
 
@@ -87,6 +88,7 @@ button {
   max-height: 80vh;
   overflow: auto;
   z-index: 10;
+  font-size: 1.2em; /* Bigger dialog text */
 }
 
 .check-inputs {
@@ -97,16 +99,16 @@ button {
 }
 
 .check-inputs input[type="text"] {
-  width: 60px;
+  width: 70px; /* Slightly bigger for readability */
   padding: 4px;
-  font-size: 0.8em;
+  font-size: 1.1em;
   margin-right: 2px;
 }
 
 .check-inputs input[type="number"] {
-  width: 60px;
+  width: 70px;
   padding: 4px;
-  font-size: 0.8em;
+  font-size: 1.1em;
 }
 
 .balanced {
@@ -135,7 +137,7 @@ button {
 
 .footer button {
   padding: 6px;
-  font-size: 0.8em;
+  font-size: 1.1em; /* Bigger footer text */
   background: #f0f0f0;
   border: none;
   cursor: pointer;
@@ -146,23 +148,23 @@ button {
 /* Mobile optimizations (under 767px) */
 @media (max-width: 767px) {
   .app-header h1 {
-    font-size: 1em;
+    font-size: 1.4em; /* Adjusted bigger */
   }
 
   .player-card h2 {
-    font-size: 0.8em;
+    font-size: 1.1em;
   }
 
   .player-card h3 {
-    font-size: 0.9em;
+    font-size: 1.3em;
   }
 }
 
 /* Extra-small screens (under 400px) - Stack buttons vertically */
 @media (max-width: 399px) {
   .buttons {
-    flex-direction: column; /* Stack buttons in rows */
-    gap: 2px; /* Space between stacked buttons */
+    flex-direction: column; /* Stack buttons */
+    gap: 2px;
   }
 
   .player-card {
@@ -171,16 +173,16 @@ button {
 
   .buttons button {
     padding: 2px 4px;
-    font-size: 0.7em;
+    font-size: 1em; /* Keep readable */
   }
 
   .inputs input {
     padding: 2px;
-    font-size: 0.7em;
+    font-size: 1em;
   }
 
   .footer button {
-    font-size: 0.7em;
+    font-size: 1em;
     padding: 4px;
   }
 }

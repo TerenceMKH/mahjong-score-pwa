@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css'; // This links to the CSS file
+import './App.css';
 
 function App() {
   const playerNames = ['上家', '對家', '下家'];
@@ -8,11 +8,10 @@ function App() {
   const [isNegative, setIsNegative] = useState([false, false, false]);
   const [playerRecords, setPlayerRecords] = useState([null, null, null]);
   const [showRecordsDialog, setShowRecordsDialog] = useState(false);
-  const [showCheckDialog, setShowCheckDialog] = useState(false); // State for check dialog
-  const [checkNames, setCheckNames] = useState(['玩家1', '玩家2', '玩家3', '玩家4']); // Editable names
-  const [checkInputs, setCheckInputs] = useState(['', '', '', '']); // Inputs default to empty strings
+  const [showCheckDialog, setShowCheckDialog] = useState(false);
+  const [checkNames, setCheckNames] = useState(['玩家1', '玩家2', '玩家3', '玩家4']);
+  const [checkInputs, setCheckInputs] = useState(['', '', '', '']);
 
-  // Load records from localStorage on mount
   useEffect(() => {
     const savedRecords = JSON.parse(localStorage.getItem('playerRecords'));
     if (savedRecords) {
@@ -20,7 +19,6 @@ function App() {
     }
   }, []);
 
-  // Save records to localStorage on change
   useEffect(() => {
     localStorage.setItem('playerRecords', JSON.stringify(playerRecords));
   }, [playerRecords]);
@@ -37,12 +35,12 @@ function App() {
     for (let i = 0; i < currentScores[playerIndex].length; i++) {
       if (i === 0) {
         total += currentScores[playerIndex][i];
-      } else if (currentScores[playerIndex][i] > 0) { // Assuming non-zero means "not empty"
+      } else if (currentScores[playerIndex][i] > 0) {
         total = Math.ceil(total * 1.5) + currentScores[playerIndex][i];
       }
     }
     const newTotals = [...totalScores];
-    newTotals[playerIndex] = isNegative[playerIndex] ? -total : total;
+    newTotals[playerIndex] = isNegative[playerIndex] ? -Math.abs(total) : Math.abs(total); // Force sign, even on 0
     setTotalScores(newTotals);
   };
 
@@ -50,7 +48,7 @@ function App() {
     const newNegative = [...isNegative];
     newNegative[playerIndex] = !newNegative[playerIndex];
     setIsNegative(newNegative);
-    calculateTotalScore(playerIndex);
+    calculateTotalScore(playerIndex); // Immediate recalc
   };
 
   const kickHalf = (playerIndex) => {
@@ -77,33 +75,28 @@ function App() {
     setScores(newScores);
   };
 
-  const normalizeScore = (score) => (score === 0 ? '0' : score.toString());
+  const normalizeScore = (score, isNeg) => {
+    if (score === 0 && isNeg) return '-0'; // Show sign for negative zero
+    return score.toString();
+  };
 
-  // Function to update check names
   const updateCheckName = (index, value) => {
     const newNames = [...checkNames];
     newNames[index] = value;
     setCheckNames(newNames);
   };
 
-  // Function to update check inputs (allow empty strings)
   const updateCheckInput = (index, value) => {
     const newInputs = [...checkInputs];
-    newInputs[index] = value; // Keep as string, can be empty
+    newInputs[index] = value;
     setCheckInputs(newInputs);
   };
 
-  // Compute sum, treating empty as 0
   const checkSum = checkInputs.reduce((acc, val) => acc + (parseInt(val) || 0), 0);
 
-  // Reset function for "番數記錄" button (closes dialogs, optional reset scores if needed)
   const resetMainView = () => {
     setShowRecordsDialog(false);
     setShowCheckDialog(false);
-    // Optional: Reset scores if you want a full reset
-    // setScores(playerNames.map(() => Array(6).fill(0)));
-    // setTotalScores([0, 0, 0]);
-    // setIsNegative([false, false, false]);
   };
 
   return (
@@ -116,7 +109,7 @@ function App() {
           <div key={i} className="player-card">
             <h2>{name}</h2>
             <h3 className={totalScores[i] >= 0 ? 'positive' : 'negative'}>
-              {normalizeScore(totalScores[i])}
+              {normalizeScore(totalScores[i], isNegative[i])}
             </h3>
             <div className="buttons">
               <button onClick={() => kickHalf(i)}>劈半</button>
@@ -149,7 +142,7 @@ function App() {
           {playerNames.map((name, i) => (
             <div key={i}>
               <h3>{name}</h3>
-              <p>{playerRecords[i] == null ? '無記錄' : `最新記錄: ${normalizeScore(playerRecords[i])}`}</p>
+              <p>{playerRecords[i] == null ? '無記錄' : `最新記錄: ${normalizeScore(playerRecords[i], false)}`}</p>
             </div>
           ))}
           <button onClick={() => setShowRecordsDialog(false)}>關閉</button>
@@ -212,7 +205,7 @@ function App() {
         <button onClick={resetMainView}>番數記錄</button>
         <button onClick={() => {
           setShowCheckDialog(true);
-          setCheckInputs(['', '', '', '']); // Reset inputs
+          setCheckInputs(['', '', '', '']);
         }}>埋數</button>
         <button onClick={() => setShowRecordsDialog(true)}>記錄</button>
       </div>
