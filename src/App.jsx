@@ -18,6 +18,28 @@ function App() {
   const [paddingTop, setPaddingTop] = useState(0);
   const [paddingBottom, setPaddingBottom] = useState(0);
 
+  const updateViewportHeight = () => {
+    let vh = window.innerHeight;
+    if (window.visualViewport) {
+      vh = window.visualViewport.height;
+    }
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  };
+
+  useEffect(() => {
+    updateViewportHeight();
+    window.addEventListener('resize', updateViewportHeight);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', updateViewportHeight);
+    }
+    return () => {
+      window.removeEventListener('resize', updateViewportHeight);
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', updateViewportHeight);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     const updatePositions = () => {
       const headerHeight = headerRef.current ? headerRef.current.offsetHeight : 0;
