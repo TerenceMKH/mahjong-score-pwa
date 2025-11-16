@@ -26,7 +26,7 @@
 
 .fixed-summary {
   position: fixed;
-  top: 50px; /* Below header - adjust based on header height */
+  top: 50px; /* Adjust based on header height */
   left: 0;
   width: 100%;
   background: white;
@@ -60,7 +60,7 @@
 }
 
 .content {
-  margin-top: 100px; /* Space for fixed header + summary (adjust as needed) */
+  margin-top: 100px; /* Space for fixed header + summary */
   padding-bottom: 60px; /* For footer */
 }
 
@@ -80,7 +80,7 @@
   flex: 1;
   min-width: 0;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible; /* Allow buttons to show fully */
 }
 
 .positive { color: green; }
@@ -92,6 +92,8 @@
   margin-bottom: 6px;
   gap: 1px;
   flex-direction: row;
+  flex-wrap: nowrap; /* Prevent wrapping to avoid blocking */
+  overflow-x: auto; /* Scroll if buttons overflow */
 }
 
 .inputs {
@@ -113,7 +115,9 @@ button {
   border-radius: 4px;
   cursor: pointer;
   font-size: 1em;
-  flex: 1;
+  flex: 1 0 auto; /* Flexible but no shrink to avoid blocking */
+  min-width: 30px; /* Minimum to prevent cut-off */
+  white-space: nowrap; /* Keep text in one line */
 }
 
 .negative-btn { background-color: red; color: white; }
@@ -131,7 +135,7 @@ button {
   max-width: 90vw;
   max-height: 80vh;
   overflow: auto;
-  z-index: 11; /* Above fixed elements */
+  z-index: 11;
 }
 
 .check-inputs {
@@ -203,7 +207,7 @@ button {
   }
 }
 
-/* Extra-small screens - Stack buttons */
+/* Extra-small screens - Stack buttons vertically */
 @media (max-width: 399px) {
   .buttons {
     flex-direction: column;

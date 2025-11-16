@@ -109,7 +109,7 @@ function App() {
           {playerNames.map((name, i) => (
             <div key={i} className="summary-card">
               <h2>{name}</h2>
-              <h3 className={totalScores[i] >= 0 ? 'positive' : 'negative'}>
+              <h3 className={isNegative[i] ? 'negative' : 'positive'}>  {/* Use isNegative for color sync */}
                 {normalizeScore(totalScores[i], isNegative[i])}
               </h3>
             </div>
@@ -125,7 +125,7 @@ function App() {
                 <button onClick={() => clearScore(i)}>找數</button>
                 <button
                   onClick={() => toggleSign(i)}
-                  className={totalScores[i] < 0 ? 'negative-btn' : 'positive-btn'} // Sync color with number sign
+                  className={isNegative[i] ? 'negative-btn' : 'positive-btn'}
                 >
                   +/-
                 </button>
@@ -134,9 +134,9 @@ function App() {
                 {scores[i].map((score, j) => (
                   <input
                     key={j}
-                    type="text" // Change to text for better keyboard control
-                    inputMode="numeric" // Triggers numeric keyboard on mobile
-                    pattern="^-?[0-9]*$" // Allows negative, positive, zero; no symbols
+                    type="text"
+                    inputMode="numeric"
+                    pattern="^-?[0-9]*$"
                     value={score || ''}
                     onChange={(e) => updateScore(i, j, e.target.value)}
                   />
