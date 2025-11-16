@@ -37,15 +37,53 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const savedScores = JSON.parse(localStorage.getItem('scores'));
+    if (savedScores) {
+      setScores(savedScores);
+      // Recompute totals after loading scores
+      savedScores.forEach((_, i) => calculateTotalScore(i, savedScores));
+    }
+
+    const savedTotals = JSON.parse(localStorage.getItem('totalScores'));
+    if (savedTotals) {
+      setTotalScores(savedTotals);
+    }
+
+    const savedNegative = JSON.parse(localStorage.getItem('isNegative'));
+    if (savedNegative) {
+      setIsNegative(savedNegative);
+    }
+
     const savedRecords = JSON.parse(localStorage.getItem('playerRecords'));
     if (savedRecords) {
       setPlayerRecords(savedRecords);
     }
+
+    const savedCheckNames = JSON.parse(localStorage.getItem('checkNames'));
+    if (savedCheckNames) {
+      setCheckNames(savedCheckNames);
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('scores', JSON.stringify(scores));
+  }, [scores]);
+
+  useEffect(() => {
+    localStorage.setItem('totalScores', JSON.stringify(totalScores));
+  }, [totalScores]);
+
+  useEffect(() => {
+    localStorage.setItem('isNegative', JSON.stringify(isNegative));
+  }, [isNegative]);
 
   useEffect(() => {
     localStorage.setItem('playerRecords', JSON.stringify(playerRecords));
   }, [playerRecords]);
+
+  useEffect(() => {
+    localStorage.setItem('checkNames', JSON.stringify(checkNames));
+  }, [checkNames]);
 
   const updateScore = (playerIndex, fieldIndex, value) => {
     const newScores = [...scores];
