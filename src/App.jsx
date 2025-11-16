@@ -13,22 +13,19 @@ function App() {
   const [checkInputs, setCheckInputs] = useState(['', '', '', '']);
   const headerRef = useRef(null);
   const summaryRef = useRef(null);
+  const footerRef = useRef(null);
   const [summaryTop, setSummaryTop] = useState(0);
-  const [contentMargin, setContentMargin] = useState(0);
+  const [paddingTop, setPaddingTop] = useState(0);
+  const [paddingBottom, setPaddingBottom] = useState(0);
 
   useEffect(() => {
     const updatePositions = () => {
-      let headerHeight = 0;
-      if (headerRef.current) {
-        headerHeight = headerRef.current.offsetHeight;
-      }
+      const headerHeight = headerRef.current ? headerRef.current.offsetHeight : 0;
+      const summaryHeight = summaryRef.current ? summaryRef.current.offsetHeight : 0;
+      const footerHeight = footerRef.current ? footerRef.current.offsetHeight : 0;
       setSummaryTop(headerHeight);
-
-      let summaryHeight = 0;
-      if (summaryRef.current) {
-        summaryHeight = summaryRef.current.offsetHeight;
-      }
-      setContentMargin(headerHeight + summaryHeight);
+      setPaddingTop(headerHeight + summaryHeight);
+      setPaddingBottom(footerHeight);
     };
 
     updatePositions();
@@ -205,7 +202,7 @@ function App() {
     headerTitle = '結算';
     showSummary = false;
     content = (
-      <div className="settlement-content">
+      <div className="content settlement-content" style={{ padding: `${paddingTop}px 8px ${paddingBottom}px 8px` }}>
         <div className="square">
           <div className="player top">
             <input
@@ -282,7 +279,7 @@ function App() {
     headerTitle = '找數前記錄';
     showSummary = false;
     content = (
-      <div className="content" style={{ marginTop: `${contentMargin}px` }}>
+      <div className="content" style={{ padding: `${paddingTop}px 8px ${paddingBottom}px 8px` }}>
         <div className="players-container">
           {playerNames.map((name, i) => (
             <div key={i} className="player-card">
@@ -308,7 +305,7 @@ function App() {
     );
   } else {
     content = (
-      <div className="content" style={{ marginTop: `${contentMargin}px` }}>
+      <div className="content" style={{ padding: `${paddingTop}px 8px ${paddingBottom}px 8px` }}>
         <div className="players-container">
           {playerNames.map((name, i) => (
             <div key={i} className="player-card">
@@ -361,7 +358,7 @@ function App() {
         </div>
       )}
       {content}
-      <div className="footer">
+      <div className="footer" ref={footerRef}>
         <button onClick={showMain}>番數記錄</button>
         <button onClick={showSettlementScreen}>結算</button>
         <button onClick={showRecordsScreen}>找數前記錄</button>
