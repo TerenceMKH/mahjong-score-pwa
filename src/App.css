@@ -1,15 +1,12 @@
 html, body {
   height: 100%;
-  overflow-y: auto; /* Allow natural page scrolling */
+  overflow-y: auto;
   margin: 0;
 }
 
 .app {
   text-align: center;
-  
-  /* NEW, correct padding for Header + Summary */
-  padding: calc(4.7em + 32px) 8px 60px 8px; 
-  
+  padding: calc(4.7em + 32px) 8px 60px 8px;
   max-width: 100vw;
   overflow-x: hidden;
   position: relative;
@@ -17,8 +14,6 @@ html, body {
   font-size: 1.2em;
   background-color: white;
   color: black;
-  
-  /* Add these lines from the deleted .settlement-content */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,7 +52,7 @@ html, body {
 
 .fixed-summary {
   position: fixed;
-  top: calc(1.5em + 9px); /* This is CORRECT */
+  top: calc(1.5em + 9px);
   left: 0;
   width: 100%;
   background: white;
@@ -89,6 +84,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 0;
+  padding: 0;
 }
 
 .summary-card h2 {
@@ -122,7 +118,7 @@ html, body {
   flex: 1;
   min-width: 0;
   box-sizing: border-box;
-  overflow: visible; /* Allow buttons to show fully */
+  overflow: visible;
   text-align: center;
 }
 
@@ -154,7 +150,7 @@ html, body {
 .buttons {
   display: flex;
   justify-content: space-around;
-  margin-top: 0; /* This removes any unwanted top space */
+  margin: 0;
   margin-bottom: 4px;
   gap: 1px;
   flex-direction: row;
@@ -165,8 +161,8 @@ html, body {
 .inputs {
   display: flex;
   flex-direction: column;
-  max-height: 300px; /* Limit height for scrolling if too many inputs */
-  overflow-y: auto; /* Add scroll for more inputs */
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .record-entry {
@@ -210,13 +206,13 @@ input {
 
 button {
   padding: 3px 6px;
-  margin: 0; /* Ensures no unwanted space next to scores/other elements */
+  margin: 0;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1em;
-  flex: 1 0 auto; /* Flexible but no shrink to avoid blocking */
-  min-width: 30px; /* Minimum to prevent cut-off */
-  white-space: nowrap; /* Keep text in one line */
+  flex: 1 0 auto;
+  min-width: 30px;
+  white-space: nowrap;
   background-color: #f0f0f0;
   color: black;
   border: none;
@@ -349,7 +345,6 @@ button {
   }
 }
 
-/* Footer */
 .footer {
   position: fixed;
   bottom: 0;
@@ -387,7 +382,6 @@ button {
   }
 }
 
-/* Mobile optimizations */
 @media (max-width: 767px) {
   .fixed-header h1 {
     font-size: 1.2em;
@@ -402,7 +396,6 @@ button {
   }
 }
 
-/* Extra-small screens - Stack buttons vertically */
 @media (max-width: 399px) {
   .buttons {
     flex-direction: column;
