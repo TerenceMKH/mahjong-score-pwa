@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
@@ -11,6 +11,30 @@ function App() {
   const [showCheckDialog, setShowCheckDialog] = useState(false);
   const [checkNames, setCheckNames] = useState(['玩家1', '玩家2', '玩家3', '玩家4']);
   const [checkInputs, setCheckInputs] = useState(['', '', '', '']);
+  const headerRef = useRef(null);
+  const summaryRef = useRef(null);
+  const [summaryTop, setSummaryTop] = useState(0);
+  const [contentMargin, setContentMargin] = useState(0);
+
+  useEffect(() => {
+    const updatePositions = () => {
+      let headerHeight = 0;
+      if (headerRef.current) {
+        headerHeight = headerRef.current.offsetHeight;
+      }
+      setSummaryTop(headerHeight);
+
+      let summaryHeight = 0;
+      if (summaryRef.current) {
+        summaryHeight = summaryRef.current.offsetHeight;
+      }
+      setContentMargin(headerHeight + summaryHeight);
+    };
+
+    updatePositions();
+    window.addEventListener('resize', updatePositions);
+    return () => window.removeEventListener('resize', updatePositions);
+  }, []);
 
   useEffect(() => {
     const savedRecords = JSON.parse(localStorage.getItem('playerRecords'));
@@ -40,15 +64,27 @@ function App() {
       }
     }
     const newTotals = [...totalScores];
-    newTotals[playerIndex] = isNegative[playerIndex] ? -Math.abs(total) : Math.abs(total);
+    newTotals[playerIndex] = isNegative[playerIndex] ? -total : total;
     setTotalScores(newTotals);
   };
 
   const toggleSign = (playerIndex) => {
+    const newIsNeg = !isNegative[playerIndex];
     const newNegative = [...isNegative];
-    newNegative[playerIndex] = !newNegative[playerIndex];
+    newNegative[playerIndex] = newIsNeg;
     setIsNegative(newNegative);
-    calculateTotalScore(playerIndex);
+
+    let total = 0;
+    for (let i = 0; i < scores[playerIndex].length; i++) {
+      if (i === 0) {
+        total += scores[playerIndex][i];
+      } else if (scores[playerIndex][i] > 0) {
+        total = Math.ceil(total * 1.5) + scores[playerIndex][i];
+      }
+    }
+    const newTotals = [...totalScores];
+    newTotals[playerIndex] = newIsNeg ? -total : total;
+    setTotalScores(newTotals);
   };
 
   const kickHalf = (playerIndex) => {
@@ -101,10 +137,10 @@ function App() {
 
   return (
     <div className="app">
-      <header className="app-header fixed-header">
+      <header className="app-header fixed-header" ref={headerRef}>
         <h1>台灣麻將番數記錄</h1>
       </header>
-      <div className="fixed-summary">
+      <div className="fixed-summary" ref={summaryRef} style={{ top: `${summaryTop}px` }}>
         <div className="summary-row">
           {playerNames.map((name, i) => (
             <div key={i} className="summary-card">
@@ -116,7 +152,7 @@ function App() {
           ))}
         </div>
       </div>
-      <div className="content">
+      <div className="content" style={{ marginTop: `${contentMargin}px` }}>
         <div className="players-container">
           {playerNames.map((name, i) => (
             <div key={i} className="player-card">

@@ -26,7 +26,6 @@
 
 .fixed-summary {
   position: fixed;
-  top: 50px; /* Adjust based on header height */
   left: 0;
   width: 100%;
   background: white;
@@ -60,7 +59,6 @@
 }
 
 .content {
-  margin-top: 100px; /* Space for fixed header + summary */
   padding-bottom: 60px; /* For footer */
 }
 
