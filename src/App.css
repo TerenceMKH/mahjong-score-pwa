@@ -84,26 +84,28 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 0;
-  line-height: 1; /* Add this */
-
+  line-height: 1;
 }
 
+/* Remove ALL space between score + 劈半 */
 .summary-card h2 {
   font-size: 1em;
   margin: 0;
-  line-height: 1; /* Add this */
-
+  margin-bottom: 0;
+  line-height: 1;
 }
 
 .summary-card h3 {
   font-size: 1.2em;
   margin: 0;
-  line-height: 1; /* Add this */
+  margin-top: 0;
+  line-height: 1;
 }
 
 .summary-card button {
   margin: 0;
-  margin-top: 0; /* Explicitly set to 0 */
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .players-container {
@@ -159,7 +161,7 @@ html, body {
   margin-bottom: 4px;
   gap: 1px;
   flex-direction: row;
-  flex-wrap: nowrap; 
+  flex-wrap: nowrap;
   overflow-x: auto;
 }
 
