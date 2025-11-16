@@ -6,9 +6,9 @@ function App() {
   const [scores, setScores] = useState(playerNames.map(() => Array(12).fill(0)));
   const [totalScores, setTotalScores] = useState([0, 0, 0]);
   const [isNegative, setIsNegative] = useState([false, false, false]);
-  const [playerRecords, setPlayerRecords] = useState([null, null, null]);
-  const [showRecordsDialog, setShowRecordsDialog] = useState(false);
-  const [showCheckDialog, setShowCheckDialog] = useState(false);
+  const [playerLastRecords, setPlayerLastRecords] = useState([null, null, null]);
+  const [showSettlement, setShowSettlement] = useState(false);
+  const [showRecords, setShowRecords] = useState(false);
   const [checkNames, setCheckNames] = useState(['玩家1', '玩家2', '玩家3', '玩家4']);
   const [checkInputs, setCheckInputs] = useState(['', '', '', '']);
   const headerRef = useRef(null);
@@ -40,7 +40,6 @@ function App() {
     const savedScores = JSON.parse(localStorage.getItem('scores'));
     if (savedScores) {
       setScores(savedScores);
-      // Recompute totals after loading scores
       savedScores.forEach((_, i) => calculateTotalScore(i, savedScores));
     }
 
@@ -54,9 +53,9 @@ function App() {
       setIsNegative(savedNegative);
     }
 
-    const savedRecords = JSON.parse(localStorage.getItem('playerRecords'));
+    const savedRecords = JSON.parse(localStorage.getItem('playerLastRecords'));
     if (savedRecords) {
-      setPlayerRecords(savedRecords);
+      setPlayerLastRecords(savedRecords);
     }
 
     const savedCheckNames = JSON.parse(localStorage.getItem('checkNames'));
@@ -78,8 +77,8 @@ function App() {
   }, [isNegative]);
 
   useEffect(() => {
-    localStorage.setItem('playerRecords', JSON.stringify(playerRecords));
-  }, [playerRecords]);
+    localStorage.setItem('playerLastRecords', JSON.stringify(playerLastRecords));
+  }, [playerLastRecords]);
 
   useEffect(() => {
     localStorage.setItem('checkNames', JSON.stringify(checkNames));
@@ -136,9 +135,14 @@ function App() {
   };
 
   const clearScore = (playerIndex) => {
-    const newRecords = [...playerRecords];
-    newRecords[playerIndex] = totalScores[playerIndex];
-    setPlayerRecords(newRecords);
+    const record = {
+      total: totalScores[playerIndex],
+      scores: [...scores[playerIndex]],
+      isNegative: isNegative[playerIndex]
+    };
+    const newRecords = [...playerLastRecords];
+    newRecords[playerIndex] = record;
+    setPlayerLastRecords(newRecords);
 
     const newTotals = [...totalScores];
     newTotals[playerIndex] = 0;
@@ -147,6 +151,10 @@ function App() {
     const newScores = [...scores];
     newScores[playerIndex] = Array(12).fill(0);
     setScores(newScores);
+
+    const newNegative = [...isNegative];
+    newNegative[playerIndex] = false;
+    setIsNegative(newNegative);
   };
 
   const normalizeScore = (score, isNeg) => {
@@ -166,30 +174,140 @@ function App() {
     setCheckInputs(newInputs);
   };
 
-  const checkSum = checkInputs.reduce((acc, val) => acc + (parseInt(val) || 0), 0);
-
-  const resetMainView = () => {
-    setShowRecordsDialog(false);
-    setShowCheckDialog(false);
+  const applyMultiplier = (factor) => {
+    const newInputs = checkInputs.map(val => ((parseFloat(val) || 0) * factor).toString());
+    setCheckInputs(newInputs);
   };
 
-  return (
-    <div className="app">
-      <header className="app-header fixed-header" ref={headerRef}>
-        <h1>台灣麻將番數記錄</h1>
-      </header>
-      <div className="fixed-summary" ref={summaryRef} style={{ top: `${summaryTop}px` }}>
-        <div className="summary-row">
+  const checkSum = checkInputs.reduce((acc, val) => acc + (parseFloat(val) || 0), 0);
+
+  const showMain = () => {
+    setShowSettlement(false);
+    setShowRecords(false);
+  };
+
+  const showSettlementScreen = () => {
+    setShowSettlement(true);
+    setShowRecords(false);
+    setCheckInputs(['', '', '', '']);
+  };
+
+  const showRecordsScreen = () => {
+    setShowSettlement(false);
+    setShowRecords(true);
+  };
+
+  let content;
+  let headerTitle = '台灣麻將番數記錄';
+  let showSummary = true;
+
+  if (showSettlement) {
+    headerTitle = '結算';
+    showSummary = false;
+    content = (
+      <div className="settlement-content">
+        <div className="square">
+          <div className="player top">
+            <input
+              type="text"
+              value={checkNames[0]}
+              onChange={(e) => updateCheckName(0, e.target.value)}
+            />
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9.]*"
+              value={checkInputs[0]}
+              onChange={(e) => updateCheckInput(0, e.target.value)}
+            />
+          </div>
+          <div className="player left">
+            <input
+              type="text"
+              value={checkNames[1]}
+              onChange={(e) => updateCheckName(1, e.target.value)}
+            />
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9.]*"
+              value={checkInputs[1]}
+              onChange={(e) => updateCheckInput(1, e.target.value)}
+            />
+          </div>
+          <div className="player right">
+            <input
+              type="text"
+              value={checkNames[2]}
+              onChange={(e) => updateCheckName(2, e.target.value)}
+            />
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9.]*"
+              value={checkInputs[2]}
+              onChange={(e) => updateCheckInput(2, e.target.value)}
+            />
+          </div>
+          <div className="player bottom">
+            <input
+              type="text"
+              value={checkNames[3]}
+              onChange={(e) => updateCheckName(3, e.target.value)}
+            />
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9.]*"
+              value={checkInputs[3]}
+              onChange={(e) => updateCheckInput(3, e.target.value)}
+            />
+          </div>
+          <div className="center">
+            <p className={checkSum === 0 ? 'balanced' : checkSum > 0 ? 'positive' : 'negative'}>
+              {checkSum === 0 ? '啱數' : checkSum}
+            </p>
+          </div>
+        </div>
+        <div className="multipliers">
+          <button onClick={() => applyMultiplier(0.5)}>x0.5</button>
+          <button onClick={() => applyMultiplier(1)}>x1</button>
+          <button onClick={() => applyMultiplier(1.5)}>x1.5</button>
+          <button onClick={() => applyMultiplier(2)}>x2</button>
+          <button onClick={() => applyMultiplier(3)}>x3</button>
+        </div>
+      </div>
+    );
+  } else if (showRecords) {
+    headerTitle = '找數前記錄';
+    showSummary = false;
+    content = (
+      <div className="content" style={{ marginTop: `${contentMargin}px` }}>
+        <div className="players-container">
           {playerNames.map((name, i) => (
-            <div key={i} className="summary-card">
+            <div key={i} className="player-card">
               <h2>{name}</h2>
-              <h3 className={isNegative[i] ? 'negative' : 'positive'}>
-                {normalizeScore(totalScores[i], isNegative[i])}
-              </h3>
+              {playerLastRecords[i] ? (
+                <>
+                  <h3 className={playerLastRecords[i].isNegative ? 'negative' : 'positive'}>
+                    {normalizeScore(playerLastRecords[i].total, playerLastRecords[i].isNegative)}
+                  </h3>
+                  <div className="inputs">
+                    {playerLastRecords[i].scores.map((score, j) => (
+                      <div key={j} className="record-entry">{score || ''}</div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <p>無記錄</p>
+              )}
             </div>
           ))}
         </div>
       </div>
+    );
+  } else {
+    content = (
       <div className="content" style={{ marginTop: `${contentMargin}px` }}>
         <div className="players-container">
           {playerNames.map((name, i) => (
@@ -220,87 +338,33 @@ function App() {
           ))}
         </div>
       </div>
+    );
+  }
 
-      {showRecordsDialog && (
-        <div className="dialog">
-          <h2>玩家記錄</h2>
-          {playerNames.map((name, i) => (
-            <div key={i}>
-              <h3>{name}</h3>
-              <p>{playerRecords[i] == null ? '無記錄' : `最新記錄: ${normalizeScore(playerRecords[i], false)}`}</p>
-            </div>
-          ))}
-          <button onClick={() => setShowRecordsDialog(false)}>關閉</button>
-        </div>
-      )}
-
-      {showCheckDialog && (
-        <div className="dialog">
-          <h2>對數</h2>
-          <div className="check-inputs">
-            <input
-              type="text"
-              value={checkNames[0]}
-              onChange={(e) => updateCheckName(0, e.target.value)}
-            />
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              value={checkInputs[0]}
-              onChange={(e) => updateCheckInput(0, e.target.value)}
-            />
-            <input
-              type="text"
-              value={checkNames[1]}
-              onChange={(e) => updateCheckName(1, e.target.value)}
-            />
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              value={checkInputs[1]}
-              onChange={(e) => updateCheckInput(1, e.target.value)}
-            />
-            <input
-              type="text"
-              value={checkNames[2]}
-              onChange={(e) => updateCheckName(2, e.target.value)}
-            />
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              value={checkInputs[2]}
-              onChange={(e) => updateCheckInput(2, e.target.value)}
-            />
-            <input
-              type="text"
-              value={checkNames[3]}
-              onChange={(e) => updateCheckName(3, e.target.value)}
-            />
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              value={checkInputs[3]}
-              onChange={(e) => updateCheckInput(3, e.target.value)}
-            />
+  return (
+    <div className="app">
+      <header className="app-header fixed-header" ref={headerRef}>
+        <h1>{headerTitle}</h1>
+      </header>
+      {showSummary && (
+        <div className="fixed-summary" ref={summaryRef} style={{ top: `${summaryTop}px` }}>
+          <div className="summary-row">
+            {playerNames.map((name, i) => (
+              <div key={i} className="summary-card">
+                <h2>{name}</h2>
+                <h3 className={isNegative[i] ? 'negative' : 'positive'}>
+                  {normalizeScore(totalScores[i], isNegative[i])}
+                </h3>
+              </div>
+            ))}
           </div>
-          <p className={checkSum === 0 ? 'balanced' : 'unbalanced'}>
-            {checkSum === 0 ? '啱數' : '唔啱數'}
-          </p>
-          <button onClick={() => setShowCheckDialog(false)}>關閉</button>
         </div>
       )}
-
+      {content}
       <div className="footer">
-        <button onClick={resetMainView}>番數記錄</button>
-        <button onClick={() => {
-          setShowCheckDialog(true);
-          setCheckInputs(['', '', '', '']);
-        }}>埋數</button>
-        <button onClick={() => setShowRecordsDialog(true)}>記錄</button>
+        <button onClick={showMain}>番數記錄</button>
+        <button onClick={showSettlementScreen}>結算</button>
+        <button onClick={showRecordsScreen}>找數前記錄</button>
       </div>
     </div>
   );
