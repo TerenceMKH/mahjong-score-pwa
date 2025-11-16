@@ -6,11 +6,11 @@ html, body {
 
 .app {
   text-align: center;
-  padding: 0 8px 60px 8px; /* Restores the padding from the history code */
+  padding: 0; /* MUST be 0. Padding goes inside the scrolling content. */
   max-width: 100vw;
-  overflow-x: hidden; /* Prevent horizontal scroll bars */
+  overflow-x: hidden;
   position: relative;
-  min-height: 100vh; /* The KEY change for proper scrolling */
+  height: 100vh; /* Fills the viewport, does not scroll */
   font-size: 1.2em;
   background-color: white;
   color: black;
@@ -48,7 +48,7 @@ html, body {
 
 .fixed-summary {
   position: fixed;
-  top: calc(1.5em + 17px); /* Sets summary below header (1.5em h1 + 16px padding + 1px border) */
+  top: calc(1.5em + 9px); /* This is CORRECT */
   left: 0;
   width: 100%;
   background: white;
@@ -96,33 +96,22 @@ html, body {
   margin: 0;
 }
 
-.content {
-  /* This wrapper should only define its flow */
-  padding: 0; 
-  margin-top: calc(1.5em + 17px + 2.2em + 17px); /* Total fixed top height */
-  overflow: hidden; /* Prevent interference */
-}
-
 .settlement-content {
-  /* 1. Define vertical boundaries using absolute positioning */
   position: absolute;
   left: 0;
   right: 0;
-  /* TOP: fixed-header height (1.5em+8px+1px) + fixed-summary height (approx 2.2em+9px) */
-  top: calc(1.5em + 9px + 2.2em + 9px); 
+  /* This is the new, correct calculation */
+  top: calc(3.7em + 26px);
   bottom: 60px; /* Space for the footer */
   
-  /* 2. Retain necessary scrolling and horizontal padding */
-  padding: 0 8px; /* Only horizontal padding remains */
+  padding: 0 8px; /* Horizontal padding is fine */
   width: 100%;
   
-  /* 3. Scrolling properties */
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto; /* This is the only scrolling area */
+  overflow-y: auto; /* This is the ONLY scrolling area */
   box-sizing: border-box;
-  /* height: 100%; <--- REMOVED */
 }
 
 .players-container {
@@ -431,12 +420,6 @@ button {
   .player-card {
     padding: 4px;
   }
-
-/* Assuming '劈半', '找數', and '+/-' are siblings inside the player card */
-.player-card button {
-  flex: 1 1 0; /* Allows each button to take up an equal, minimum amount of space */
-  box-sizing: border-box;
-}
 
   .buttons button {
     padding: 2px 4px;
