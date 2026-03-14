@@ -22,5 +22,5 @@ export default defineConfig({
       }
     })
   ],
-  base: '/mahjong-score-pwa/',
+  base: '/',
 });
