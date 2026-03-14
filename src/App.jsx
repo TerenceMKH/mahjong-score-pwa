@@ -174,6 +174,19 @@ function App() {
     setCheckInputs(newInputs);
   };
 
+  const toggleCheckInputSign = (index) => {
+    const newInputs = [...checkInputs];
+    let val = newInputs[index];
+    if (val.startsWith('-')) {
+      newInputs[index] = val.substring(1);
+    } else if (val !== '') {
+      newInputs[index] = '-' + val;
+    } else {
+      newInputs[index] = '-';
+    }
+    setCheckInputs(newInputs);
+  };
+
   const applyMultiplier = (factor) => {
     const newInputs = checkInputs.map(val => ((parseFloat(val) || 0) * factor).toString());
     setCheckInputs(newInputs);
@@ -213,13 +226,23 @@ function App() {
               value={checkNames[0]}
               onChange={(e) => updateCheckName(0, e.target.value)}
             />
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9.]*"
-              value={checkInputs[0]}
-              onChange={(e) => updateCheckInput(0, e.target.value)}
-            />
+            <div style={{ display: 'flex', flexDirection: 'row', width: '100px', margin: '4px 0' }}>
+              <button
+                onClick={() => toggleCheckInputSign(0)}
+                style={{ padding: '0 4px', margin: '0 4px 0 0', minWidth: '30px', fontSize: '0.9em' }}
+                className={checkInputs[0].startsWith('-') ? 'negative-btn' : 'positive-btn'}
+              >
+                +/-
+              </button>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9.]*"
+                value={checkInputs[0]}
+                onChange={(e) => updateCheckInput(0, e.target.value)}
+                style={{ margin: 0, width: '100%' }}
+              />
+            </div>
           </div>
           <div className="player left">
             <input
@@ -227,13 +250,23 @@ function App() {
               value={checkNames[1]}
               onChange={(e) => updateCheckName(1, e.target.value)}
             />
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9.]*"
-              value={checkInputs[1]}
-              onChange={(e) => updateCheckInput(1, e.target.value)}
-            />
+            <div style={{ display: 'flex', flexDirection: 'row', width: '100px', margin: '4px 0' }}>
+              <button
+                onClick={() => toggleCheckInputSign(1)}
+                style={{ padding: '0 4px', margin: '0 4px 0 0', minWidth: '30px', fontSize: '0.9em' }}
+                className={checkInputs[1].startsWith('-') ? 'negative-btn' : 'positive-btn'}
+              >
+                +/-
+              </button>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9.]*"
+                value={checkInputs[1]}
+                onChange={(e) => updateCheckInput(1, e.target.value)}
+                style={{ margin: 0, width: '100%' }}
+              />
+            </div>
           </div>
           <div className="player right">
             <input
@@ -241,13 +274,23 @@ function App() {
               value={checkNames[2]}
               onChange={(e) => updateCheckName(2, e.target.value)}
             />
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9.]*"
-              value={checkInputs[2]}
-              onChange={(e) => updateCheckInput(2, e.target.value)}
-            />
+            <div style={{ display: 'flex', flexDirection: 'row', width: '100px', margin: '4px 0' }}>
+              <button
+                onClick={() => toggleCheckInputSign(2)}
+                style={{ padding: '0 4px', margin: '0 4px 0 0', minWidth: '30px', fontSize: '0.9em' }}
+                className={checkInputs[2].startsWith('-') ? 'negative-btn' : 'positive-btn'}
+              >
+                +/-
+              </button>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9.]*"
+                value={checkInputs[2]}
+                onChange={(e) => updateCheckInput(2, e.target.value)}
+                style={{ margin: 0, width: '100%' }}
+              />
+            </div>
           </div>
           <div className="player bottom">
             <input
@@ -255,13 +298,23 @@ function App() {
               value={checkNames[3]}
               onChange={(e) => updateCheckName(3, e.target.value)}
             />
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9.]*"
-              value={checkInputs[3]}
-              onChange={(e) => updateCheckInput(3, e.target.value)}
-            />
+            <div style={{ display: 'flex', flexDirection: 'row', width: '100px', margin: '4px 0' }}>
+              <button
+                onClick={() => toggleCheckInputSign(3)}
+                style={{ padding: '0 4px', margin: '0 4px 0 0', minWidth: '30px', fontSize: '0.9em' }}
+                className={checkInputs[3].startsWith('-') ? 'negative-btn' : 'positive-btn'}
+              >
+                +/-
+              </button>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9.]*"
+                value={checkInputs[3]}
+                onChange={(e) => updateCheckInput(3, e.target.value)}
+                style={{ margin: 0, width: '100%' }}
+              />
+            </div>
           </div>
           <div className="center">
             <p className={checkSum === 0 ? 'balanced' : checkSum > 0 ? 'positive' : 'negative'}>
